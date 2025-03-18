@@ -48,33 +48,54 @@
 //     return ans;
 // }
 
-fn main(){
-    stack_fn();
-    heap_fn();
-    update_string();
- 
+
+// fn stack_fn(){
+//     let a: i32 = 10;
+//     let b: i32 =20;
+//     let c: i32 = a+b;
+//     println!("Stack function: the sum of the {} and {} is {}", a, b, c);
+// }
+
+// fn heap_fn(){
+//     // create a strubg which is allocated on the heap
+//     let s1: String = String::from("Hello"); 
+//     let s2: String = String::from("World");
+//     let combined: String = format!("{} {}", s1, s2);
+//     println!("Heap function : Combined string is {}" , combined);
+// }
+
+// fn update_string(){
+//     let mut s: String = String::from("Initial String");
+//     println!("Before update {}", s);
+//     println!("Capacity {}", s.capacity());
+//     println!("Length {}", s.len());
+//     println!("Pointer {:p}", s.as_ptr());
+
+//     s.push_str("and some additional text");
+
+//     println!("After update {}", s);
+//     println!("Capacity {}", s.capacity());
+//     println!("Length {}", s.len());
+//     println!("Pointer {:p}", s.as_ptr());
+
+// }
+
+// fn main() { 
+//     let s1 = String::from("Hi there");
+//     let s2: String = s1;
+
+//     println!("{}", s2);
+// }
+
+
+fn main() {
+    let s1: String = String::from("hello");
+    let s2: String = takes_ownership(s1);
+    println!("{}", s2);
 }
 
-fn stack_fn(){
-    let a: i32 = 10;
-    let b: i32 =20;
-    let c: i32 = a+b;
-    println!("Stack function: the sum of the {} and {} is {}", a, b, c);
-}
 
-fn heap_fn(){
-    // create a strubg which is allocated on the heap
-    let s1: String = String::from("Hello"); 
-    let s2: String = String::from("World");
-    let combined: String = format!("{} {}", s1, s2);
-    println!("Heap function : Combined string is {}" , combined);
-}
-
-fn update_string(){
-    let mut s: String = String::from("Initial String");
-    println!("Before update {}", s);
-
-    s.push_str("and some additional text");
-
-    println!("After update {}", s);
+fn takes_ownership(some_string: String) -> String {
+    println!("{}", some_string); 
+    return some_string; // return the string ownership back to the original main fn
 }
