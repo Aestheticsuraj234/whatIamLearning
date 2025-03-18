@@ -48,90 +48,33 @@
 //     return ans;
 // }
 
-use std::fs::{self, OpenOptions};
-use std::io::{self, Read, Write};
-use serde::{Deserialize, Serialize};
-use clap::{Arg, Command};
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Task {
-    id: usize,
-    description: String,
+fn main(){
+    stack_fn();
+    heap_fn();
+    update_string();
+ 
 }
 
-const TASK_FILE: &str = "tasks.json";
-
-fn load_tasks() -> Vec<Task> {
-    let mut file = OpenOptions::new().read(true).write(true).create(true).open(TASK_FILE).expect("Failed to open file");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).expect("Failed to read file");
-    
-    if contents.is_empty() {
-        Vec::new()
-    } else {
-        serde_json::from_str(&contents).unwrap_or_else(|_| Vec::new())
-    }
+fn stack_fn(){
+    let a: i32 = 10;
+    let b: i32 =20;
+    let c: i32 = a+b;
+    println!("Stack function: the sum of the {} and {} is {}", a, b, c);
 }
 
-fn save_tasks(tasks: &Vec<Task>) {
-    let json = serde_json::to_string_pretty(tasks).expect("Failed to serialize tasks");
-    fs::write(TASK_FILE, json).expect("Failed to write tasks to file");
+fn heap_fn(){
+    // create a strubg which is allocated on the heap
+    let s1: String = String::from("Hello"); 
+    let s2: String = String::from("World");
+    let combined: String = format!("{} {}", s1, s2);
+    println!("Heap function : Combined string is {}" , combined);
 }
 
-fn add_task(description: String) {
-    let mut tasks = load_tasks();
-    let new_task = Task { id: tasks.len() + 1, description };
-    tasks.push(new_task);
-    save_tasks(&tasks);
-    println!("Task added successfully!");
-}
+fn update_string(){
+    let mut s: String = String::from("Initial String");
+    println!("Before update {}", s);
 
-fn list_tasks() {
-    let tasks = load_tasks();
-    if tasks.is_empty() {
-        println!("No tasks found!");
-    } else {
-        for task in &tasks {
-            println!("{}: {}", task.id, task.description);
-        }
-    }
-}
+    s.push_str("and some additional text");
 
-fn remove_task(id: usize) {
-    let mut tasks = load_tasks();
-    if let Some(pos) = tasks.iter().position(|t| t.id == id) {
-        tasks.remove(pos);
-        save_tasks(&tasks);
-        println!("Task removed successfully!");
-    } else {
-        println!("Task ID not found!");
-    }
-}
-
-fn main() {
-    let matches = Command::new("Task Manager")
-        .version("1.0")
-        .author("Rust CLI Dev")
-        .about("Manages your tasks")
-        .subcommand(Command::new("add")
-            .about("Adds a new task")
-            .arg(Arg::new("description").required(true)))
-        .subcommand(Command::new("list").about("Lists all tasks"))
-        .subcommand(Command::new("remove")
-            .about("Removes a task")
-            .arg(Arg::new("id").required(true)))
-        .get_matches();
-    
-    match matches.subcommand() {
-        Some(("add", sub_m)) => {
-            let desc = sub_m.get_one::<String>("description").unwrap().to_string();
-            add_task(desc);
-        }
-        Some(("list", _)) => list_tasks(),
-        Some(("remove", sub_m)) => {
-            let id = sub_m.get_one::<String>("id").unwrap().parse::<usize>().expect("Invalid task ID");
-            remove_task(id);
-        }
-        _ => println!("Use add, list, or remove commands"),
-    }
+    println!("After update {}", s);
 }
