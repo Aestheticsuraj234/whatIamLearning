@@ -88,14 +88,28 @@
 // }
 
 
+// fn main() {
+//     let s1: String = String::from("hello");
+//     let s2: String = takes_ownership(s1);
+//     println!("{}", s2);
+// }
+
+
+
+
 fn main() {
-    let s1: String = String::from("hello");
-    let s2: String = takes_ownership(s1);
+    let s1:String = String::from("hello");
+    let s2:&String = &s1; // s2 is a reference to s1
+
+    println!("{}", s1);
     println!("{}", s2);
+
+    let my_string:String = String::from("Hello, Rust!");
+    takes_ownership(&my_string); 
+    println!("{}", my_string);
 }
 
-
-fn takes_ownership(some_string: String) -> String {
+fn takes_ownership(some_string: &String){
     println!("{}", some_string); 
-    return some_string; // return the string ownership back to the original main fn
+   
 }
