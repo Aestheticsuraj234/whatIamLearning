@@ -97,19 +97,46 @@
 
 
 
-fn main() {
-    let s1:String = String::from("hello");
-    let s2:&String = &s1; // s2 is a reference to s1
+// fn main() {
+//     let s1:String = String::from("hello");
+//     let s2:&String = &s1; // s2 is a reference to s1
 
-    println!("{}", s1);
-    println!("{}", s2);
+//     println!("{}", s1);
+//     println!("{}", s2);
 
-    let my_string:String = String::from("Hello, Rust!");
-    takes_ownership(&my_string); 
-    println!("{}", my_string);
+//     let my_string:String = String::from("Hello, Rust!");
+//     takes_ownership(&my_string); 
+//     println!("{}", my_string);
+// }
+
+// fn takes_ownership(some_string: &String){
+//     println!("{}", some_string); 
+   
+// }
+// let mut s1 = String::from("Hello");
+// let s2: &mut String = &mut s1;
+
+// fn update_word(word: &mut String) {
+//   word.push_str(" World");
+// }
+// update_word(s2);
+
+
+
+
+struct User {
+  active: bool,
+  username: String,
+  email: String,
+  sign_in_count: u64,
 }
 
-fn takes_ownership(some_string: &String){
-    println!("{}", some_string); 
-   
+fn main() {
+  let user1 = User {
+      active: true,
+      username: String::from("someusername123"),
+      email: String::from("someone@example.com"),
+      sign_in_count: 1,
+  };
+  print!("User 1 username: {:?}", user1.username);
 }
